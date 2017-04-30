@@ -1,0 +1,17 @@
+version: '2'
+services:
+  inspircd:
+    image: inspircd/inspircd-docker
+    volumes:
+      - "./inspircd.conf:/inspircd/conf.d/links.conf"
+    ports:
+      - "6667:6667"
+      - "6697:6697"
+  anope:
+    image: anope:testing
+    build: ..
+    environment:
+      - "ANOPE_UPSTREAM_IP=inspircd"
+      - "ANOPE_UPSTREAM_PASSWORD=password"
+    depends_on:
+      - inspircd
