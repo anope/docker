@@ -1,17 +1,21 @@
 version: '2'
 services:
   inspircd:
-    image: inspircd/inspircd-docker
-    volumes:
-      - "./inspircd.conf:/inspircd/conf.d/links.conf"
+    image: inspircd:testing
+    #    volumes:
+    #  - "./inspircd.conf:/inspircd/conf.d/links.conf"
+    environment:
+      - "INSP_SERVICES_PASSWORD=password"
+      - "INSP_SERVICES_NAME=services.example.com"
     ports:
       - "6667:6667"
       - "6697:6697"
-  anope:
+  services:
     image: anope:testing
     build: ..
     environment:
-      - "ANOPE_UPSTREAM_IP=inspircd"
-      - "ANOPE_UPSTREAM_PASSWORD=password"
+      - "ANOPE_SERVICES_NAME=services.example.com"
+      - "ANOPE_UPLINK_IP=inspircd"
+      - "ANOPE_UPLINK_PASSWORD=password"
     depends_on:
       - inspircd

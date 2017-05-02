@@ -9,7 +9,7 @@ uplink
 	 *
 	 * NOTE: On some shell providers, this will not be an option.
 	 */
-	host = "$ANOPE_UPSTREAM_IP"
+	host = "$ANOPE_UPLINK_IP"
 
 	/*
 	 * Enable if Services should connect using IPv6.
@@ -29,7 +29,7 @@ uplink
 	 *
 	 * Refer to your IRCd documentation for how this is to be done.
 	 */
-	port = ${ANOPE_UPSTREAM_PORT:-7000}
+	port = ${ANOPE_UPLINK_PORT:-7000}
 
 	/*
 	 * The password to send to the IRC server for authentication.
@@ -37,7 +37,7 @@ uplink
 	 *
 	 * Refer to your IRCd documentation for more information on link blocks.
 	 */
-	password = "${ANOPE_UPSTREAM_PASSWORD}"
+	password = "${ANOPE_UPLINK_PASSWORD}"
 }
 
 EOF

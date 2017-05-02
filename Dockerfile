@@ -26,13 +26,23 @@ RUN apk add --no-cache --virtual .build-utils gcc g++ make git cmake gnutls-dev 
     # Uninstall all unnecessary tools after build process
     apk del .build-utils && \
     rm -rf /src && \
-    chown -R anope /anope/
+    # Provide a data location
+    mkdir -p /data && \
+    touch /data/anope.db && \
+    ln -s /data/anope.db /anope/data/anope.db && \
+    mv /anope/data/backups /data/backups && \
+    ln -s /data/backups /anope/data/backups && \
+    # Make sure everything is owned by anope
+    chown -R anope /anope/ && \
+    chown -R anope /data/
 
 COPY ./conf/ /anope/conf/
 
 RUN chown -R anope /anope/conf/
 
 WORKDIR /anope/
+
+VOLUME /data/
 
 USER anope
 
