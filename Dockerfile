@@ -7,8 +7,8 @@ ARG VERSION=2.0
 ARG RUN_DEPENDENCIES=
 ARG BUILD_DEPENDENCIES=
 
-RUN apk add --no-cache --virtual .build-utils gcc g++ make git cmake gnutls-dev $BUILD_DEPENDENCIES && \
-    apk add --no-cache --virtual .dependencies libgcc libstdc++ gnutls gnutls-utils $RUN_DEPENDENCIES && \
+RUN apk add --no-cache --virtual .build-utils gcc g++ make git cmake gnutls-dev sqlite-dev mariadb-dev $BUILD_DEPENDENCIES && \
+    apk add --no-cache --virtual .dependencies libgcc libstdc++ gnutls gnutls-utils sqlite-libs mariadb-libs $RUN_DEPENDENCIES && \
     # Create a user to run anope later
     adduser -u 10000 -h /anope/ -D -S anope && \
     mkdir -p /src && \

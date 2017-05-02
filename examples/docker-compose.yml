@@ -1,12 +1,12 @@
 version: '2'
 services:
   inspircd:
-    image: inspircd:testing
-    #    volumes:
-    #  - "./inspircd.conf:/inspircd/conf.d/links.conf"
-    environment:
-      - "INSP_SERVICES_PASSWORD=password"
-      - "INSP_SERVICES_NAME=services.example.com"
+    image: inspircd/inspircd-docker
+    volumes:
+      - "./inspircd.conf:/inspircd/conf.d/links.conf"
+    #environment:
+    # - "INSP_SERVICES_PASSWORD=password"
+    # - "INSP_SERVICES_NAME=services.example.com"
     ports:
       - "6667:6667"
       - "6697:6697"
