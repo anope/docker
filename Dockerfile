@@ -32,8 +32,6 @@ RUN apk add --no-cache --virtual .build-utils gcc g++ make git cmake gnutls-dev 
     mkdir -p /data && \
     touch /data/anope.db && \
     ln -s /data/anope.db /anope/data/anope.db && \
-    mv /anope/data/backups /data/backups && \
-    ln -s /data/backups /anope/data/backups && \
     # Make sure everything is owned by anope
     chown -R anope /anope/ && \
     chown -R anope /data/
