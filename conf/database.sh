@@ -70,7 +70,7 @@ module
 		name = "mysql/main"
 		database = "${ANOPE_MYSQL_DB:-anope}"
 		server = "${ANOPE_MYSQL_HOST:-database}"
-		port = ${ANOPE_MYSQL_PORT:3306}
+		port = ${ANOPE_MYSQL_PORT:-3306}
 		username = "${ANOPE_MYSQL_USER:-anope}"
 		password = "$ANOPE_MYSQL_PASSWORD"
 	}

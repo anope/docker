@@ -17,5 +17,19 @@ services:
       - "ANOPE_SERVICES_NAME=services.example.com"
       - "ANOPE_UPLINK_IP=inspircd"
       - "ANOPE_UPLINK_PASSWORD=password"
+      # comment the lines below to use sqlite instead
+      - "ANOPE_SQL_ENGINE=mysql"
+      - "ANOPE_MYSQL_PASSWORD=anope"
     depends_on:
       - inspircd
+      - database
+  database:
+    image: mariadb:10.1
+    volumes:
+      - "./db:/var/lib/mysql"
+    environment:
+      - "MYSQL_RANDOM_ROOT_PASSWORD=yes"
+      - "MYSQL_USER=anope"
+      - "MYSQL_PASSWORD=anope"
+      - "MYSQL_DATABASE=anope"
+

@@ -8,7 +8,7 @@ ARG RUN_DEPENDENCIES=
 ARG BUILD_DEPENDENCIES=
 
 RUN apk add --no-cache --virtual .build-utils gcc g++ make git cmake gnutls-dev sqlite-dev mariadb-dev $BUILD_DEPENDENCIES && \
-    apk add --no-cache --virtual .dependencies libgcc libstdc++ gnutls gnutls-utils sqlite-libs mariadb-libs $RUN_DEPENDENCIES && \
+    apk add --no-cache --virtual .dependencies libgcc libstdc++ gnutls gnutls-utils sqlite-libs mariadb-client-libs $RUN_DEPENDENCIES && \
     # Create a user to run anope later
     adduser -u 10000 -h /anope/ -D -S anope && \
     mkdir -p /src && \
@@ -18,6 +18,8 @@ RUN apk add --no-cache --virtual .build-utils gcc g++ make git cmake gnutls-dev 
     cd /src/anope && \
     # Add and overwrite modules
     ln -s /src/anope/modules/extra/m_ssl_gnutls.cpp modules && \
+    ln -s /src/anope/modules/extra/m_mysql.cpp modules && \
+    ln -s /src/anope/modules/extra/m_sqlite.cpp modules && \
     mkdir build && \
     cd /src/anope/build && \
     cmake -DINSTDIR=/anope/ -DDEFUMASK=077 -DCMAKE_BUILD_TYPE=RELEASE .. && \
