@@ -1,4 +1,7 @@
-# Anope
+Anope
+===
+
+[![Build Status](https://travis-ci.org/Adam-/anope-docker.svg?branch=master)](https://travis-ci.org/Adam-/anope-docker)
 
 Anope is a set of IRC Services designed for flexibility and ease of use.
 
