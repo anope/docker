@@ -3,6 +3,10 @@ language: bash
 services:
   - docker
 
+env:
+  global:
+    ANOPE_VERSION=2.0.5
+
 before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y openssl parallel
@@ -10,7 +14,7 @@ before_install:
 
 script:
   # Initial build with default parameters
-  - docker build -t anope:testing .
+  - docker build --build-arg "VERSION=$ANOPE_VERSION" -t anope:testing .
   # Run all tests from test directory
   - ls tests/*.sh | parallel --joblog /tmp/joblog
   - cat /tmp/joblog
