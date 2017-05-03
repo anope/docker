@@ -12,7 +12,10 @@ services:
       - "6697:6697"
   services:
     image: anope:testing
-    build: ..
+    build: 
+      context: ..
+      args:
+        - VERSION="2.0.5"
     environment:
       - "ANOPE_SERVICES_NAME=services.example.com"
       - "ANOPE_UPLINK_IP=inspircd"
