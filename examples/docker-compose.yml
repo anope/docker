@@ -2,9 +2,11 @@ version: '2'
 services:
   inspircd:
     image: inspircd/inspircd-docker
+    volumes:
+      - "/home/aeshaynes/irc/conf:/inspircd/conf"
     environment:
-    - "INSP_OPER_PASSWORD=password"
-    - "INSP_OPER_NAME=aeshaynes"
+    - "INSP_OPER_PASSWORD_HASH=cNkbWRWn$$MhSTITMbrCxp0neoDqL66/MSI2C+oxIa4Ux6DXb5R4Q"
+    - "INSP_OPER_HOST=*@*"
     - "INSP_OPER_SSLONLY=no"
     - "INSP_LINK1_NAME=services.mx3ak.com"
     - "INSP_LINK1_IPADDR=10.100.0.109"
