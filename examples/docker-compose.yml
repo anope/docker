@@ -2,24 +2,28 @@ version: '2'
 services:
   inspircd:
     image: inspircd/inspircd-docker
-    volumes:
-      - "./inspircd.conf:/inspircd/conf.d/links.conf"
-    #environment:
-    # - "INSP_SERVICES_PASSWORD=password"
-    # - "INSP_SERVICES_NAME=services.example.com"
+    environment:
+    - "INSP_OPER_PASSWORD=password"
+    - "INSP_OPER_NAME=aeshaynes"
+    - "INSP_OPER_SSLONLY=no"
+    - "INSP_LINK1_NAME=services.mx3ak.com"
+    - "INSP_LINK1_IPADDR=10.100.0.109"
+    - "INSP_LINK1_PORT=7000"
+    - "INSP_LINK1_PASSWORD=test" 
     ports:
       - "6667:6667"
       - "6697:6697"
+      - "7000:7000"
   services:
-    image: anope:testing
+    image: anope/anope
     build: 
       context: ..
       args:
         - VERSION="2.0.5"
     environment:
-      - "ANOPE_SERVICES_NAME=services.example.com"
-      - "ANOPE_UPLINK_IP=inspircd"
-      - "ANOPE_UPLINK_PASSWORD=password"
+      - "ANOPE_SERVICES_NAME=services.mx3ak.com"
+      - "ANOPE_UPLINK_IP=10.100.0.109"
+      - "ANOPE_UPLINK_PASSWORD=test"
       # comment the lines below to use sqlite instead
       - "ANOPE_SQL_ENGINE=mysql"
       - "ANOPE_MYSQL_PASSWORD=anope"
