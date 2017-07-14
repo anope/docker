@@ -18,6 +18,8 @@ services:
       - "7000:7000"
   services:
     image: anope/anope
+    volumes:
+      - "/home/aeshaynes/irc/anope/conf:/anope/conf"
     build: 
       context: ..
       args:
