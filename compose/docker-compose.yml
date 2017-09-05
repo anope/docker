@@ -1,0 +1,48 @@
+version: '2'
+services:
+  inspircd:
+    image: inspircd/inspircd-docker
+    volumes:
+      - "/home/aeshaynes/irc/conf:/inspircd/conf"
+    environment:
+    - "INSP_OPER_PASSWORD_HASH=cNkbWRWn$$MhSTITMbrCxp0neoDqL66/MSI2C+oxIa4Ux6DXb5R4Q"
+    - "INSP_OPER_HOST=*@*"
+    - "INSP_OPER_SSLONLY=no"
+    - "INSP_LINK1_NAME="
+    - "INSP_LINK1_IPADDR=10.100.0.109"
+    - "INSP_LINK1_PORT=7000"
+    - "INSP_LINK1_PASSWORD=test" 
+    ports:
+      - "6667:6667"
+      - "6697:6697"
+      - "7000:7000"
+  services:
+    image: anope/anope
+    volumes:
+      - "/home/aeshaynes/irc/anope/conf:/anope/conf"
+    build: 
+      context: ..
+      args:
+        - VERSION="2.0.5"
+    environment:
+      - "ANOPE_SERVICES_NAME="
+      - "ANOPE_UPLINK_IP=10.100.0.109"
+      - "ANOPE_UPLINK_PASSWORD=test"
+      # comment the lines below to use sqlite instead
+      - "ANOPE_SQL_ENGINE=mysql"
+      - "ANOPE_MYSQL_PASSWORD=anope"
+    depends_on:
+      - inspircd
+      - database
+  database:
+    image: mariadb:10.1
+    volumes:
+      - "./db:/var/lib/mysql"
+    environment:
+      - "MYSQL_RANDOM_ROOT_PASSWORD=yes"
+      - "MYSQL_USER=anope"
+      - "MYSQL_PASSWORD=anope"
+      - "MYSQL_DATABASE=anope"
+    ports:
+       - "3306:3306"
+
