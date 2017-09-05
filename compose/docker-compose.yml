@@ -8,7 +8,7 @@ services:
     - "INSP_OPER_PASSWORD_HASH=cNkbWRWn$$MhSTITMbrCxp0neoDqL66/MSI2C+oxIa4Ux6DXb5R4Q"
     - "INSP_OPER_HOST=*@*"
     - "INSP_OPER_SSLONLY=no"
-    - "INSP_LINK1_NAME=services.mx3ak.com"
+    - "INSP_LINK1_NAME="
     - "INSP_LINK1_IPADDR=10.100.0.109"
     - "INSP_LINK1_PORT=7000"
     - "INSP_LINK1_PASSWORD=test" 
@@ -25,7 +25,7 @@ services:
       args:
         - VERSION="2.0.5"
     environment:
-      - "ANOPE_SERVICES_NAME=services.mx3ak.com"
+      - "ANOPE_SERVICES_NAME="
       - "ANOPE_UPLINK_IP=10.100.0.109"
       - "ANOPE_UPLINK_PASSWORD=test"
       # comment the lines below to use sqlite instead
