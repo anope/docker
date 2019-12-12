@@ -1,4 +1,4 @@
-FROM alpine:3.7
+FROM alpine:3.10
 
 MAINTAINER Adam adam@anope.org
 MAINTAINER Sheogorath <sheogorath@shivering-isles.com>
