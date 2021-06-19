@@ -1,0 +1,41 @@
+name: Build container
+on:
+  pull_request:
+  push:
+  schedule:
+    - cron: '0 0 * * 1'
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    env:
+      ANOPE_VERSION: 2.0.9
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      DOCKER_REPO_NAME: anope-docker
+      DOCKER_REPO_PREFIX: anope
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Prepare environment
+        run: |
+          sudo apt-get -qq update
+          sudo apt-get -y -o Dpkg::Options::="--force-confnew" install moby-engine moby-cli
+          sudo apt-get install -y openssl parallel
+
+      - name: Build container
+        run: |
+          docker build --build-arg "VERSION=$ANOPE_VERSION" -t anope:testing .
+          ls tests/*.sh | parallel --joblog /tmp/joblog
+          cat /tmp/joblog
+
+      - name: Push container
+        if: github.repository == 'anope/anope-docker' && github.ref == 'refs/heads/master'
+        run: |
+          if [ "$DOCKER_USERNAME" != "" ] && [ "$DOCKER_PASSWORD" != "" ]; then
+            ./tools/tagging.sh "${DOCKER_REPO_PREFIX}/${DOCKER_REPO_NAME}" "${ANOPE_VERSION:-latest}" ""
+            docker images "${DOCKER_REPO_PREFIX}/${DOCKER_REPO_NAME}"
+            echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
+            docker images --format "{{.Repository}}:{{.Tag}}" "${DOCKER_REPO_PREFIX}/${DOCKER_REPO_NAME}" | xargs -L 1 docker push
+            docker run --rm -v "$(pwd)/:/data/:ro" -e "DOCKERHUB_USERNAME=$DOCKER_USERNAME" -e "DOCKERHUB_PASSWORD=$DOCKER_PASSWORD" -e "DOCKERHUB_REPO_PREFIX=$DOCKER_REPO_PREFIX" -e "DOCKERHUB_REPO_NAME=$DOCKER_REPO_NAME" sheogorath/readme-to-dockerhub
+          fi
