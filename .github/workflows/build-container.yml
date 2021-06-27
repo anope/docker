@@ -11,7 +11,7 @@ jobs:
     env:
       ANOPE_VERSION: 2.0.9
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      DOCKER_REPO_NAME: anope-docker
+      DOCKER_REPO_NAME: anope
       DOCKER_REPO_PREFIX: anope
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
     steps:
