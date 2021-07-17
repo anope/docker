@@ -92,5 +92,5 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: ${{ env.DOCKER_REPO_PREFIX }}/${{ env.DOCKER_REPO_NAME }}
-          short-description: Anope IRC Services http://anope.org 
+          short-description: Anope IRC Services https://anope.org 
           readme-filepath: README.md
