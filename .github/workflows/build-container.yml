@@ -15,27 +15,82 @@ jobs:
       DOCKER_REPO_PREFIX: anope
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
     steps:
-      - uses: actions/checkout@v2
+      - 
+        uses: actions/checkout@v2
+      - 
+        name: Test base image and code version
+        run: |
+          ls tests/*.sh | parallel --joblog /tmp/joblog
+          cat /tmp/joblog
+        env:
+          VERSION: ${{ env.ANOPE_VERSION }}
+      - 
+        name: Pipeline variables
+        id: pipeline_vars
+        run: |
+          EXPECTED="anope/anope-docker refs/heads/master";
+          ACTUAL="$REPO $REF";
 
-      - name: Prepare environment
+          echo "Expected: $EXPECTED"
+          echo "Actual:   $ACTUAL"
+
+          if [ "$EXPECTED" == "$ACTUAL" ]; then
+            echo "On anope/anope-docker repo, master branch - building all architectures and pushing to Docker Hub"
+            echo "::set-output name=push::true"
+            echo "::set-output name=platforms::linux/amd64,linux/arm64"
+          else
+            echo "Not on main repo and master branch - only building amd64 architecture and not pushing to Docker Hub"
+            echo "::set-output name=push::false"
+            echo "::set-output name=platforms::linux/amd64"
+          fi
+        env:
+          REPO: ${{ github.repository }}
+          REF: ${{ github.ref }}
+      - 
+        name: Prepare environment
         run: |
           sudo apt-get -qq update
           sudo apt-get -y -o Dpkg::Options::="--force-confnew" install moby-engine moby-cli
           sudo apt-get install -y openssl parallel
-
-      - name: Build container
-        run: |
-          docker build --build-arg "VERSION=$ANOPE_VERSION" -t anope:testing .
-          ls tests/*.sh | parallel --joblog /tmp/joblog
-          cat /tmp/joblog
-
-      - name: Push container
-        if: github.repository == 'anope/anope-docker' && github.ref == 'refs/heads/master'
-        run: |
-          if [ "$DOCKER_USERNAME" != "" ] && [ "$DOCKER_PASSWORD" != "" ]; then
-            ./tools/tagging.sh "${DOCKER_REPO_PREFIX}/${DOCKER_REPO_NAME}" "${ANOPE_VERSION:-latest}" ""
-            docker images "${DOCKER_REPO_PREFIX}/${DOCKER_REPO_NAME}"
-            echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
-            docker images --format "{{.Repository}}:{{.Tag}}" "${DOCKER_REPO_PREFIX}/${DOCKER_REPO_NAME}" | xargs -L 1 docker push
-            docker run --rm -v "$(pwd)/:/data/:ro" -e "DOCKERHUB_USERNAME=$DOCKER_USERNAME" -e "DOCKERHUB_PASSWORD=$DOCKER_PASSWORD" -e "DOCKERHUB_REPO_PREFIX=$DOCKER_REPO_PREFIX" -e "DOCKERHUB_REPO_NAME=$DOCKER_REPO_NAME" sheogorath/readme-to-dockerhub
-          fi
+      -
+        name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.DOCKER_REPO_PREFIX }}/${{ env.DOCKER_REPO_NAME }}
+          tags: |
+            type=semver,pattern={{version}},value=${{ env.ANOPE_VERSION }}
+            type=semver,pattern={{major}}.{{minor}},value=${{ env.ANOPE_VERSION }}
+            type=semver,pattern={{major}},value=${{ env.ANOPE_VERSION }}
+      - 
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      -
+        name: Login to DockerHub
+        if: github.repository == 'anope/anope' && github.ref == 'refs/heads/master'
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - 
+        name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          build-args: VERSION=${{ env.ANOPE_VERSION }}
+          platforms: ${{ steps.pipeline_vars.outputs.platforms }}
+          push: ${{ steps.pipeline_vars.outputs.push }}
+          tags: ${{ steps.meta.outputs.tags }}
+      - 
+        name: Docker Hub Description
+        if: github.repository == 'anope/anope' && github.ref == 'refs/heads/master'
+        uses: peter-evans/dockerhub-description@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: ${{ env.DOCKER_REPO_PREFIX }}/${{ env.DOCKER_REPO_NAME }}
+          short-description: Anope IRC Services https://anope.org 
+          readme-filepath: README.md
