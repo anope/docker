@@ -6,6 +6,7 @@ MAINTAINER Sheogorath <sheogorath@shivering-isles.com>
 ARG VERSION=2.0
 ARG RUN_DEPENDENCIES=
 ARG BUILD_DEPENDENCIES=
+ARG EXTRA_MODULES="m_ssl_gnutls m_mysql m_sqlite"
 
 RUN apk add --no-cache --virtual .build-utils gcc g++ make git cmake gnutls-dev sqlite-dev mariadb-dev $BUILD_DEPENDENCIES && \
     apk add --no-cache --virtual .dependencies libgcc libstdc++ gnutls gnutls-utils sqlite-libs mariadb-client mariadb-connector-c $RUN_DEPENDENCIES && \
@@ -17,12 +18,7 @@ RUN apk add --no-cache --virtual .build-utils gcc g++ make git cmake gnutls-dev 
     git clone --depth 1 https://github.com/anope/anope.git anope -b $VERSION && \
     cd /src/anope && \
     # Add and overwrite modules
-    ln -s /src/anope/modules/extra/m_ssl_gnutls.cpp modules && \
-    ln -s /src/anope/modules/extra/m_mysql.cpp modules && \
-    ln -s /src/anope/modules/extra/m_sqlite.cpp modules && \
-    ln -s /src/anope/modules/extra/m_ldap.cpp modules && \
-    ln -s /src/anope/modules/extra/m_ldap_authentication.cpp modules && \
-    ln -s /src/anope/modules/extra/m_ldap_oper.cpp modules && \
+    for module in $EXTRA_MODULES; do ln -s /src/anope/modules/extra/$module.cpp modules; done && \
     mkdir build && \
     cd /src/anope/build && \
     cmake -DINSTDIR=/anope/ -DDEFUMASK=077 -DCMAKE_BUILD_TYPE=RELEASE .. && \
