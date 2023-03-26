@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     env:
-      ANOPE_VERSION: 2.0.11
+      ANOPE_VERSION: 2.0.12
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       DOCKER_REPO_NAME: anope
       DOCKER_REPO_PREFIX: anope
