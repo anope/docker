@@ -16,7 +16,7 @@ jobs:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
     steps:
       - 
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - 
         name: Test base image and code version
         run: |
