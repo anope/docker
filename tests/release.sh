@@ -29,6 +29,6 @@ command_exits jq
 if version_ge "$ANOPE_VERSION" "$(github_latest_release "anope/anope")"; then
     echo "Anope version ($ANOPE_VERSION) is up to date! Test successful."
 else
-    echo >&2 "A newer base image is available! Please update. New version is $(github_latest_release "anope/anope")"
+    echo >&2 "A newer Anope release is available! Please update. New version is $(github_latest_release "anope/anope")"
     exit 1
 fi
