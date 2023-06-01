@@ -1,7 +1,6 @@
 FROM alpine:3.18
 
-MAINTAINER Adam adam@anope.org
-MAINTAINER Sheogorath <sheogorath@shivering-isles.com>
+LABEL org.opencontainers.image.authors="Anope Team <team@anope.org>"
 
 ARG VERSION=2.0
 ARG RUN_DEPENDENCIES=
