@@ -45,12 +45,6 @@ jobs:
             echo "platforms=linux/amd64" >> $GITHUB_OUTPUT
           fi
       -
-        name: Prepare environment
-        run: |
-          sudo apt-get -qq update
-          sudo apt-get -y -o Dpkg::Options::="--force-confnew" install moby-engine moby-cli
-          sudo apt-get install -y openssl parallel
-      -
         name: Docker meta
         id: meta
         uses: docker/metadata-action@v4
