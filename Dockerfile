@@ -1,4 +1,4 @@
-FROM alpine:3.18
+FROM alpine:3.19
 
 LABEL org.opencontainers.image.authors="Anope Team <team@anope.org>"
 
