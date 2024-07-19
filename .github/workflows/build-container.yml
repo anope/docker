@@ -13,7 +13,7 @@ jobs:
       ANOPE_VERSION: 2.0.16
       DOCKER_REPO: anope/anope
       GITHUB_BRANCH: master
-      GITHUB_REPO: anope/anope-docker
+      GITHUB_REPO: anope/docker
     steps:
       -
         uses: actions/checkout@v4

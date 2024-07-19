@@ -10,7 +10,7 @@ Anope is a set of Services for IRC networks that allows users to manage their ni
 
 This image is not usable as stand alone image. You need some kind of IRCd.
 
-For example you can use [InspIRCd](https://hub.docker.com/r/inspircd/inspircd-docker) like in the [example](https://github.com/anope/anope-docker/blob/master/examples/docker-compose.yml).
+For example you can use [InspIRCd](https://hub.docker.com/r/inspircd/inspircd-docker) like in the [example](https://github.com/anope/docker/blob/master/examples/docker-compose.yml).
 
 The minimal configuration looks like this:
 
@@ -57,7 +57,7 @@ $ docker run --name anope -v "/path/to/datastore:/data" -e "ANOPE_UPLINK_IP=irc.
 
 ### MySQL
 
-For a production setup MySQL is the recommended way to set this image up. Checkout the [example](https://github.com/anope/anope-docker/blob/master/examples/docker-compose.yml) if you want to test it.
+For a production setup MySQL is the recommended way to set this image up. Checkout the [example](https://github.com/anope/docker/blob/master/examples/docker-compose.yml) if you want to test it.
 
 |Available variables      |Default value                   |Description                                 |
 |-------------------------|--------------------------------|--------------------------------------------|
@@ -99,7 +99,7 @@ Please see [the Docker installation documentation](https://docs.docker.com/insta
 
 ## Issues
 
-If you have any problems with or questions about this image, please contact us through a [GitHub issue](https://github.com/anope/anope-docker/issues).
+If you have any problems with or questions about this image, please contact us through a [GitHub issue](https://github.com/anope/docker/issues).
 
 You can also reach many of the project maintainers via the `#anope` IRC channel on [Teranova](http://www.teranova.net/).
 
