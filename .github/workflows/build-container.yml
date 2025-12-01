@@ -16,7 +16,7 @@ jobs:
       GITHUB_REPO: anope/docker
     steps:
       -
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       -
         name: Test base image and code version
         run: |
