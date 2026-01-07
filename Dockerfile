@@ -1,8 +1,8 @@
 FROM alpine:3.23 AS builder
 
-ARG VERSION=2.0
+ARG VERSION=2.1
 ARG BUILD_DEPENDENCIES="gnutls-dev mariadb-dev sqlite-dev"
-ARG EXTRA_MODULES="m_mysql m_sqlite m_ssl_gnutls"
+ARG EXTRA_MODULES="mysql sqlite ssl_gnutls"
 
 RUN apk add --no-cache gcc g++ ninja git cmake $BUILD_DEPENDENCIES && \
     mkdir -p /src && \
@@ -43,4 +43,4 @@ VOLUME /data/
 
 USER anope
 
-CMD ["/anope/bin/services", "--nofork"]
+CMD ["/anope/bin/anope", "--nofork"]

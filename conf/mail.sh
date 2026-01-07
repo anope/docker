@@ -1,46 +1,19 @@
 #!/bin/sh
 
 if [ -z "$ANOPE_MAIL_REGISTRATION_MESSAGE" ]; then
-    ANOPE_MAIL_REGISTRATION_MESSAGE="Hi,
-
-				You have requested to register the nickname {nick} on {network}.
-				Please type \" /msg NickServ CONFIRM REGISTER {code} \" to complete registration.
-
-				If you don't know why this mail was sent to you, please ignore it silently.
-
-				{network} administrators."
+    ANOPE_MAIL_REGISTRATION_MESSAGE="Hi,\n\nYou have requested to register the nickname {nick} on {network}.\nPlease type \\\" /msg NickServ CONFIRM REGISTER {code} \\\" to complete registration.\n\nIf you don't know why this mail was sent to you, please ignore it silently.\n\n{network} administrators."
 fi
 
 if [ -z "$ANOPE_MAIL_RESET_MESSAGE" ]; then
-    ANOPE_MAIL_RESET_MESSAGE="Hi,
-
-			You have requested to have the password for {nick} reset.
-			To reset your password, type \" /msg NickServ CONFIRM RESETPASS {nick} {code} \"
-
-			If you don't know why this mail was sent to you, please ignore it silently.
-
-			{network} administrators."
+    ANOPE_MAIL_RESET_MESSAGE="Hi,\n\nYou have requested to have the password for {nick} reset.\nTo reset your password, type \\\" /msg NickServ CONFIRM RESETPASS {nick} {code} \\\"\n\nIf you don't know why this mail was sent to you, please ignore it silently.\n\n{network} administrators."
 fi
 
 if [ -z "$ANOPE_MAIL_EMAILCHANGE_MESSAGE" ]; then
-    ANOPE_MAIL_EMAILCHANGE_MESSAGE="Hi,
-
-			You have requested to change your email address from {old_email} to {new_email}.
-			Please type \" /msg NickServ CONFIRM EMAIL {code} \" to confirm this change.
-
-			If you don't know why this mail was sent to you, please ignore it silently.
-
-			{network} administrators."
+    ANOPE_MAIL_EMAILCHANGE_MESSAGE="Hi,\n\nYou have requested to change your email address from {old_email} to {new_email}.\nPlease type \\\" /msg NickServ CONFIRM EMAIL {code} \\\" to confirm this change.\n\nIf you don't know why this mail was sent to you, please ignore it silently.\n\n{network} administrators."
 fi
 
 if [ -z "$ANOPE_MAIL_MEMO_MESSAGE" ]; then
-    ANOPE_MAIL_MEMO_MESSAGE="Hi {receiver},
-
-			You've just received a new memo from {sender}. This is memo number {number}.
-
-			Memo text:
-
-			{text}"
+    ANOPE_MAIL_MEMO_MESSAGE="Hi {receiver},\n\nYou've just received a new memo from {sender}. This is memo number {number}.\n\nMemo text:\n\n{text}"
 fi
 
 cat <<EOF
