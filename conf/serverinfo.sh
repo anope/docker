@@ -1,3 +1,6 @@
+#!/bin/sh
+
+cat <<EOF
 /*
  * [REQUIRED] Server Information
  *
@@ -10,13 +13,13 @@ serverinfo
 	 * other server names on the rest of your IRC network. Note that it does not have
 	 * to be an existing hostname, just one that isn't on your network already.
 	 */
-	name = "services.name"
+	name = "${ANOPE_SERVICES_NAME:-services.localhost.net}"
 
 	/*
 	 * The text which should appear as the server's information in /whois and similar
 	 * queries.
 	 */
-	description = "Services for IRC Networks"
+	description = "${ANOPE_SERVICES_DESCRIPTION:-Services for IRC Networks}"
 
 	/*
 	 * The local address that Services will bind to before connecting to the remote
@@ -47,4 +50,4 @@ serverinfo
 	 */
 	motd = "conf/services.motd"
 }
-
+EOF

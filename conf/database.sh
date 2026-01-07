@@ -1,5 +1,9 @@
 #!/bin/sh
 
+if [ -n "$ANOPE_MYSQL_PASSWORD_FILE" ]; then
+	ANOPE_MYSQL_PASSWORD=$(cat "$ANOPE_MYSQL_PASSWORD_FILE")
+fi
+
 if [ "$ANOPE_SQL_LIVE" = "yes" ]; then
     ANOPE_SQL_LIVE="_live"
 else
@@ -36,19 +40,24 @@ module
 	 * An optional prefix to prepended to the name of each created table.
 	 * Do not use the same prefix for other programs.
 	 */
-	#prefix = "anope_db_"
+	prefix = "${ANOPE_SQL_PREFIX:-anope_db_}"
 
-	/* Whether or not to import data from another database module in to SQL on startup.
-	 * If you enable this, be sure that the database services is configured to use is
-	 * empty and that another database module to import from is loaded before db_sql.
-	 * After you enable this and do a database import you should disable it for
-	 * subsequent restarts.
+	/*
+	 * Whether or not to import data from another database module in to SQL on
+	 * startup.
 	 *
-	 * Note that you can not import databases using db_sql_live. If you want to import
-	 * databases and use db_sql_live you should import them using db_sql, then shut down
-	 * and start services with db_sql_live.
+	 * If you enable this, be sure that the database Anope is configured to use
+	 * is empty and that another database module to import from is loaded BEFORE
+	 * db_sql. After you enable this and do a database import you MUST disable
+	 * it for subsequent restarts. If you want to keep writing a file database
+	 * after the SQL import is done you should load db_flatfile or db_json AFTER
+	 * this module.
+	 *
+	 * Note that you can not import databases using db_sql_live. If you want to
+	 * import databases and use db_sql_live you should import them using db_sql,
+	 * then shut down and start Anope with db_sql_live.
 	 */
-	import = false
+	import = ${ANOPE_SQL_IMPORT:-false}
 }
 EOF
 
