@@ -1,0 +1,22 @@
+
+   / \   _ __   ___  _ __   ___
+  / _ \ | '_ \ / _ \| '_ \ / _ \
+ / ___ \| | | | (_) | |_) |  __/
+/_/   \_\_| |_|\___/| .__/ \___|
+                    |_|
+
+Welcome to Anope IRC Services!
+
+This server is running Anope, a set of powerful services for IRC networks.
+These services allow you to register your nickname, manage channels, and more.
+
+Useful Commands:
+  /msg NickServ HELP    - Get help with nickname registration and management
+  /msg ChanServ HELP    - Get help with channel registration and management
+  /msg MemoServ HELP    - Send and receive memos (offline messages)
+  /msg BotServ HELP     - Manage channel bots
+  /msg HostServ HELP    - Request a virtual hostname (vHost)
+
+For more information, please visit our website or join #anope for support.
+
+Enjoy your stay!
