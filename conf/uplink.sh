@@ -1,5 +1,9 @@
 #!/bin/sh
 
+if [ -n "$ANOPE_UPLINK_PASSWORD_FILE" ]; then
+	ANOPE_UPLINK_PASSWORD=$(cat "$ANOPE_UPLINK_PASSWORD_FILE")
+fi
+
 cat <<EOF
 uplink
 {
@@ -14,13 +18,13 @@ uplink
 	/*
 	 * Enable if Services should connect using IPv6.
 	 */
-	ipv6 = no
+	ipv6 = ${ANOPE_UPLINK_IPV6:-no}
 
 	/*
 	 * Enable if Services should connect using SSL.
 	 * You must have an SSL module loaded for this to work.
 	 */
-	ssl = no
+	ssl = ${ANOPE_UPLINK_SSL:-no}
 
 	/*
 	 * The port to connect to.
@@ -39,5 +43,4 @@ uplink
 	 */
 	password = "${ANOPE_UPLINK_PASSWORD}"
 }
-
 EOF
